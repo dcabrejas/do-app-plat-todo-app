@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 connection.init();
 routes.configure(app);
 
-var server = app.listen(8000, function(){
+var PORT = process.env.PORT || 8000;
+var server = app.listen(PORT, function(){
   console.log('Server listening on port ' + server.address().port);
 });
