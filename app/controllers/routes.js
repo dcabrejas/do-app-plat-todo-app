@@ -1,4 +1,5 @@
 var todo = require('../models/todo');
+var request = require('request');
 
 module.exports = {
   configure: function(app) {
@@ -16,6 +17,15 @@ module.exports = {
     });
     app.delete('/todo/:id',function(req,res) {
       todo.delete(req.params.id,res);
+    });
+    app.get('/proxy',function(req,res) {
+      request('http://'+ process.env.PROXY_HOST + ':' + process.env.PROXY_PORT + '/', function(error, response, body) {
+        if (error) {
+          console.error('Proxy error:', error);
+          return res.status(500).send({status:1, message:'Proxy failed'});
+        }
+        res.send(body);
+      });
     });
   }
 };
